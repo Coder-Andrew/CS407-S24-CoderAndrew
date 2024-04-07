@@ -1,53 +1,42 @@
-import * as THREE from './node_modules/three/build/three.module.js';     // if this gives you an error it's because you forgot to install three.js :-)
+import {
+    BoxGeometry,
+    Color,
+    Mesh,
+    MeshBasicMaterial,
+    PerspectiveCamera,
+    Scene,
+    WebGLRenderer,
+  } from './node_modules/three/build/three.module.js';
+  
+  // Get a reference to the container element that will hold our scene
+const container = document.querySelector('#scene-container');
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+const scene = new Scene();
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
+scene.background = new Color('skyblue');
 
-const geometry = new THREE.BoxGeometry( 1, 0.5, 1 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
+const fov = 35;
+const aspect = container.clientWidth / container.clientHeight;
+const near = 0.1;
+const far = 100; 
 
-const material2 = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const cube2 = new THREE.Mesh( geometry, material2 );
-cube2.position.x = 2;
-scene.add( cube2 );
+const camera = new PerspectiveCamera(fov, aspect, near, far);
 
-let cubes = [];
-for (let i = 0; i < 5; i++) {
-	const material2 = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-	const cube3 = new THREE.Mesh( geometry, material2 );
-	
-	cubes.push( cube3 );
+camera.position.set(0,0,10);
 
-	cube3.position.y = -2;
-	cube3.position.x = -1+i;
-	scene.add( cube3 );
-}
+const geometry = new BoxGeometry(2,2,2);
 
+const material = new MeshBasicMaterial();
 
-camera.position.z = 5;
+const cube = new Mesh(geometry, material);
 
-function animate() {
-	requestAnimationFrame( animate );
+scene.add(cube);
 
-	cube.rotation.x += 0.01;
-	cube.rotation.y += 0.01;
+const renderer = new WebGLRenderer();
 
-	cube2.rotation.x += 0.01;
-	cube2.rotation.y += 0.01;
+renderer.setSize(container.clientWidth, container.clientHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
 
-	cubes.forEach((cube) => {
-		cube.rotation.x += 0.01;
-		cube.rotation.y += 0.01;
-	});
+container.append(renderer.domElement);
 
-	renderer.render( scene, camera );
-}
-
-
-animate();
+renderer.render(scene, camera);
