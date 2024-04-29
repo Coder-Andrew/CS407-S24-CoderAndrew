@@ -28,6 +28,9 @@
 			<li aria-current={$page.url.pathname.startsWith('/assignment3') ? 'page' : undefined}>
 				<a href="/assignment3">Assignment 3</a>
 			</li>
+			<li aria-current={$page.url.pathname.startsWith('/assignment4') ? 'page' : undefined}>
+				<a href="/assignment4">Assignment 4</a>
+			</li>
 			<li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
 				<a href="/sverdle">Sverdle</a>
 			</li>
@@ -38,7 +41,7 @@
 	</nav>
 
 	<div class="corner">
-		<a href="https://github.com/sveltejs/kit">
+		<a href="https://github.com/Coder-Andrew/CS407-S24-CoderAndrew" target="_blank">
 			<img src={github} alt="GitHub" />
 		</a>
 	</div>
