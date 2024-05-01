@@ -13,6 +13,9 @@ import { createSphere } from './components/sphere.js';
 
 import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
+import { createCube } from './components/cube.js';
+
+import { Vector3, BufferGeometry, LineBasicMaterial, Line, Quaternion } from 'three';
 
 let camera;
 let renderer;
@@ -25,9 +28,16 @@ let tankBase;
 let tankTurret;
 let tankTurretBase;
 
+
 let sphere;
 let sphere2;
 let sphere3;
+
+let line;
+let direction;
+let projectile = [];
+
+let animationId;
 
 class World {
     constructor(container) {
@@ -72,13 +82,73 @@ class World {
         const resizer = new Resizer(container, camera, renderer);
     }
 
+    // shootTurret() {
+    //     console.log("Shoot!");
+    //     //console.log(direction);
+    //     let vec3 = new Vector3();
+    //     let quat = new Quaternion();
+    //     tankTurret.getWorldPosition(vec3);
+    //     tankTurret.getWorldQuaternion(quat);
+        
+    //     console.log(vec3);
+    //     console.log(quat);
+
+    //     const cube = createCube();
+    //     cube.position.set(vec3.x, vec3.y, vec3.z);
+    //     scene.add(cube);
+    // }
+
+    shootTurret() {
+        console.log("Shoot!");
+    
+        // Get the world position and quaternion of the turret
+        let worldPosition = new Vector3();
+        let worldQuaternion = new Quaternion();
+        tankTurret.getWorldPosition(worldPosition);
+        tankTurret.getWorldQuaternion(worldQuaternion);
+    
+        // Use a base forward vector for the turret's direction (assuming the turret points along its local z-axis)
+        let forward = new Vector3(10, 0, 0);
+        forward.applyQuaternion(worldQuaternion).normalize();
+    
+        // Set the length of the line (e.g., length of the turret barrel)
+        let lineLength = 5;
+    
+        // Calculate the end position of the line
+        let endPosition = new Vector3().copy(forward).multiplyScalar(lineLength).add(worldPosition);
+    
+        // Create a cube at the end position
+        const cube = createCube();
+        cube.position.copy(endPosition);
+
+        projectile.push({"vec":cube, "dir":forward});
+        scene.add(cube);
+    }
+
     animate() {
-        requestAnimationFrame(this.animate.bind(this));
+        animationId = requestAnimationFrame(this.animate.bind(this));
 
         sphere.rotation.y += 0.01;
         sphere2.rotation.y += 0.05;
 
+        for (let i = 0; i < projectile.length; i++) {
+            projectile[i].vec.position.add(projectile[i].dir);
+            if (projectile[i].vec.position.z > 50 || projectile[i].vec.position.z < -50 || projectile[i].vec.position.x > 50 || projectile[i].vec.position.x < -50) {
+                scene.remove(projectile[i].vec);
+                projectile.splice(i, 1);
+            }
+        }
+
         renderer.render(scene, camera);
+    }
+
+    toggleAnimation() {
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        } else {
+            this.animate();
+        }
     }
 
     followTank() {

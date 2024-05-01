@@ -38,6 +38,10 @@
                 world.rotateTank(0.05);
                 break;
 
+            case 'e':
+                world.shootTurret();
+                break;
+
             case "ArrowRight":
                 world.rotateTank(-0.05);
                 break;
@@ -64,6 +68,7 @@
             <label for="toggle-directional-light">Toggle Directional Light</label>
             <input type="checkbox" checked on:click={world.toggleDirectionalLight()} />             -->
 
+            <input type="button" class="btn btn-info" value="Toggle Animation" on:click={() => world.toggleAnimation()} />
             <input type="button" class="btn btn-danger" value="Reset Camera" on:click={() => world.resetCamera()} />
             <input type="button" class="btn btn-primary" value="Follow Orbit" on:click={() => world.followOrbit()} />
             <input type="button" class="btn btn-secondary" value="Follow Tank" on:click={() => world.followTank()} />
