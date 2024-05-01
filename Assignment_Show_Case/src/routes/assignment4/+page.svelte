@@ -87,8 +87,14 @@
             <li>Place those child objects relative to the parent using transformations, at least one of which we create manually using vector or matrix algebra</li>
             <li>Have interactivity that moves both the entire object as well as the children</li>
         </ul>
-        <p>For the axes: X (red), Y (green) and Z (blue)</p>
-        <p>Keyboard controls: WASD (rotates the child objects about their own local origin)  Only works if the canvas element has focus.  Click it if key press doesn't do anything.</p>
+        <ul>
+            Keyboard controls:
+            <li>(AD) slew turret left/right</li>
+            <li>(WS) elevate turret up/down</li>
+            <li>(Left/Right Arrrow) move tank left/right</li>
+            <li>(shift/control) move tank forward/backward</li>
+            <li>(e) shoot turret</li>
+        </ul>
     </article>
 </div>
 

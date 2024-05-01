@@ -177,7 +177,7 @@ class World {
         renderer.render(scene, camera);
     }
     rotateTank(direction) {
-        console.log(`x: ${tankBase.rotation.x}, z: ${tankBase.rotation.z}, y: ${tankBase.rotation.y}`);
+        //console.log(`x: ${tankBase.rotation.x}, z: ${tankBase.rotation.z}, y: ${tankBase.rotation.y}`);
         tankBase.rotation.y += direction;
     }
 
@@ -186,8 +186,8 @@ class World {
     }
 
     moveTank(direction) {
-        console.log(`x: ${tankBase.rotation.x}, z: ${tankBase.rotation.z}, y: ${tankBase.rotation.y}`);
-        console.log(`xp: ${tankBase.position.x}, zp: ${tankBase.position.z}, yp: ${tankBase.position.y}`);
+        //console.log(`x: ${tankBase.rotation.x}, z: ${tankBase.rotation.z}, y: ${tankBase.rotation.y}`);
+        //console.log(`xp: ${tankBase.position.x}, zp: ${tankBase.position.z}, yp: ${tankBase.position.y}`);
         tankBase.position.z += direction * Math.cos(tankBase.rotation.y);
         tankBase.position.x += direction * Math.sin(tankBase.rotation.y);
         camera.lookAt(tankBase.position);
