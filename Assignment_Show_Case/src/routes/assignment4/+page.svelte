@@ -93,7 +93,7 @@
             <li>(WS) elevate turret up/down</li>
             <li>(Left/Right Arrrow) move tank left/right</li>
             <li>(shift/control) move tank forward/backward</li>
-            <li>(e) shoot turret</li>
+            <li>(e) shoot turret turret</li>
         </ul>
     </article>
 </div>
