@@ -57,8 +57,6 @@ export function createCustomObj(height = 4, width = 6, depth = 4) {
     geometry.setIndex(indexAttribute);
 
 
-
-
     const material = new MeshStandardMaterial({ color: 0x0000ff, wireframe: false});
 
     const customObj = new Mesh(geometry, material);
