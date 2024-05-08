@@ -7,6 +7,7 @@ import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
 import { createCylinder } from './components/cylinder.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { AxesHelper } from 'three';
 
 let camera;
 let renderer;
@@ -28,20 +29,27 @@ class World {
         scene.add(customObj);
         
         const cylinder = createCylinder();
-        cylinder.position.set(7, 0, 0);
+        cylinder.position.set(0, 0, 50);
         scene.add(cylinder);
         
         pointLight = createPointLight();
         pointLight.position.set(0,100,0);
         
+        const axesHelper = new AxesHelper(5);
+        scene.add(axesHelper);
+
         controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controls.enablePan = true;
         controls.enableZoom = true;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 5;
         
         camera.position.set(0, 0, 10);  
         controls.update();
+
+        controls.target.set(0, 0, 0);
 
         scene.add(pointLight);
         
@@ -56,6 +64,7 @@ class World {
         requestAnimationFrame(this.animate.bind(this));
 
         // Update the controls
+        //controls.
         controls.update();
         
         // Render the scene
