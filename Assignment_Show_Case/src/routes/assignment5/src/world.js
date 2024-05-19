@@ -8,6 +8,8 @@ import { Resizer } from './systems/Resizer.js';
 import { createCylinder } from './components/cylinder.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { AxesHelper } from 'three';
+import { createCameraControls } from './systems/cameraControls.js';
+import { createAmbientLight } from './components/ambientLight.js';
 
 let camera;
 let renderer;
@@ -16,6 +18,8 @@ let scene;
 let customObj;
 
 let pointLight;
+let ambientLight;
+
 let controls;
 
 class World {
@@ -34,24 +38,22 @@ class World {
         
         pointLight = createPointLight();
         pointLight.position.set(0,10,50);
+
+        ambientLight = createAmbientLight();
+        ambientLight.position.set(0, -20, 0);
         
         const axesHelper = new AxesHelper(5);
         scene.add(axesHelper);
 
-        controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.enablePan = true;
-        controls.enableZoom = true;
-        controls.autoRotate = true;
-        controls.autoRotateSpeed = -2.5;
+        controls = createCameraControls(camera, renderer);
         
         camera.position.set(0, 0, 10);  
         controls.update();
 
         controls.target.set(0, 0, 0);
 
-        scene.add(pointLight);
+        scene.add(pointLight, ambientLight);
+        
         
         const resizer = new Resizer(container, camera, renderer);
     }
@@ -71,6 +73,21 @@ class World {
         
         // Render the scene
         renderer.render(scene, camera);
+    }
+
+    toggleAmbientLight() {
+        ambientLight.visible = !ambientLight.visible;
+    }
+    isAmbientLightVisible() {
+        return ambientLight.visible;
+    }
+
+    togglePointLight() {
+        pointLight.visible = !pointLight.visible;
+    }
+    isPointLightVisible() {
+        console.log(pointLight.visible);
+        return pointLight.visible;
     }
 
 
