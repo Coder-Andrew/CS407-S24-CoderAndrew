@@ -1,4 +1,4 @@
-import { BufferGeometry, BufferAttribute, Mesh, MeshStandardMaterial } from "three";
+import { BufferGeometry, BufferAttribute, Mesh, MeshPhongMaterial } from "three";
 
 let vertices = [
     0, -3, 0,   // 0
@@ -55,11 +55,35 @@ export function createCustomObj(height = 4, width = 6, depth = 4) {
 
     geometry.setAttribute('position', positionAttribute);
     geometry.setIndex(indexAttribute);
+    let colors = generateColors();
+    geometry.setAttribute('color', new BufferAttribute(new Float32Array(colors), 3));
 
-
-    const material = new MeshStandardMaterial({ color: 0x0000ff, wireframe: false});
+    const material = new MeshPhongMaterial({ color: 0xFFA500, wireframe: false, vertexColors: true, flatShading: true});
 
     const customObj = new Mesh(geometry, material);
 
     return customObj;
+}
+
+function generateColors() {
+    const colors = [
+        222, 58, 47,    // 0
+        222, 58, 47,    // 1
+        222, 58, 47,    // 2
+        222, 58, 47,    // 3
+        61, 47, 222,    // 4
+        61, 47, 222,    // 5
+        61, 47, 222,    // 6
+        61, 47, 222,    // 7
+        58, 222, 47,    // 8
+        58, 222, 47,    // 9
+        58, 222, 47,    // 10
+        58, 222, 47,    // 11
+        187, 47, 222,   // 12
+        187, 47, 222,   // 13
+        187, 47, 222,   // 14
+        187, 47, 222,   // 15
+    ];
+    // Normalize the color values to the range [0, 1]            
+    return colors.map((c, i) => c / 255);
 }

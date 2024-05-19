@@ -33,7 +33,7 @@ class World {
         scene.add(cylinder);
         
         pointLight = createPointLight();
-        pointLight.position.set(0,100,0);
+        pointLight.position.set(0,10,50);
         
         const axesHelper = new AxesHelper(5);
         scene.add(axesHelper);
@@ -44,7 +44,7 @@ class World {
         controls.enablePan = true;
         controls.enableZoom = true;
         controls.autoRotate = true;
-        controls.autoRotateSpeed = 5;
+        controls.autoRotateSpeed = -2.5;
         
         camera.position.set(0, 0, 10);  
         controls.update();
@@ -65,6 +65,8 @@ class World {
 
         // Update the controls
         //controls.
+        customObj.rotation.y += 0.01;
+
         controls.update();
         
         // Render the scene
