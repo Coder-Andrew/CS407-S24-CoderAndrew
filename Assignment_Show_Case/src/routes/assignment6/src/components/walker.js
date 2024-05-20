@@ -1,4 +1,4 @@
-import { CustomObject } from './objectAnimations.js';
+import { CustomObject } from '../systems/objectAnimations.js';
 
 export async function createWalker() {
     const walker = new CustomObject('/assets/models/lowpoly_walker_tank.glb');

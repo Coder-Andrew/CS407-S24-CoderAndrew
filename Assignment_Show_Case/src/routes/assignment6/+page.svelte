@@ -19,7 +19,7 @@
         main();
         document.addEventListener('keydown', (event) => {
             switch (event.key) {
-                case 'ArrowUp':
+                case 'w':
                     world.startWalker();
                     break;
             }
@@ -27,7 +27,7 @@
     
         document.addEventListener('keyup', (event) => {
             switch (event.key) {
-                case 'ArrowUp':
+                case 'w':
                     world.stopWalker();
                     break;
             }
@@ -47,6 +47,9 @@
             <div id="scene-container">
             
             </div>
+        </div>
+        <div class="text-center">
+            Hold 'w' to start the walker
         </div>
     </div>
 </div>
