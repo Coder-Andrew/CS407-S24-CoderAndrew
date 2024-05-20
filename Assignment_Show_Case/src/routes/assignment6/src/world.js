@@ -8,6 +8,7 @@ import { Resizer } from './systems/Resizer.js';
 import { loadModels } from './components/loadModels.js';
 import { createCameraControls } from './systems/cameraControls.js';
 import { Loop } from './systems/Loop.js';
+import { createWalker } from './components/walker.js';
 
 
 let camera;
@@ -15,7 +16,7 @@ let controls;
 let renderer;
 let scene;
 let loop;
-let walker;
+let walkerClass;
 
 let pointLight;
 let directionalLight;
@@ -51,12 +52,25 @@ class World {
     }
 
     async init() {
-        const { walker } = await loadModels();
+        //const { walker } = await loadModels();
+        walkerClass = await createWalker();
+        const walker = walkerClass.model; 
         
+        console.log(walkerClass);
+
         loop.updatables.push(walker);
 
         scene.add(walker);
     }
+
+    startWalker() {
+        walkerClass.playAnimation('Walk Cycle');
+    }
+    stopWalker() {
+        walkerClass.stopAnimation('Walk Cycle');
+    }
+
+    
 
     render() {
         renderer.render(scene, camera);

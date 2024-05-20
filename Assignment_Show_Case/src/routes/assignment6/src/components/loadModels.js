@@ -10,7 +10,7 @@ export async function loadModels() {
             loader.loadAsync('/assets/models/lowpoly_walker_tank.glb'),
         ]);
 
-        console.log(walkerData);
+        //console.log(walkerData);
 
         const walker = setupModel(walkerData);
     

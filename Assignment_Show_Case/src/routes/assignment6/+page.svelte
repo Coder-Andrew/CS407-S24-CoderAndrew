@@ -17,6 +17,21 @@
 
     onMount(() => {
         main();
+        document.addEventListener('keydown', (event) => {
+            switch (event.key) {
+                case 'ArrowUp':
+                    world.startWalker();
+                    break;
+            }
+        });
+    
+        document.addEventListener('keyup', (event) => {
+            switch (event.key) {
+                case 'ArrowUp':
+                    world.stopWalker();
+                    break;
+            }
+        });
     });
 
 
