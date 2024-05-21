@@ -6,8 +6,8 @@ export function createCameraControls(camera, renderer) {
     controls.dampingFactor = 0.05;
     controls.enablePan = true;
     controls.enableZoom = true;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = -2.5;
+    //controls.autoRotate = true;
+    //controls.autoRotateSpeed = -2.5;
 
     controls.tick = () => controls.update();
 

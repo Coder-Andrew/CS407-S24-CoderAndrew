@@ -5,3 +5,15 @@ export async function createWalker() {
     await walker.loadModel();
     return walker;
 }
+
+// export async function createHanger() {
+//     const hanger = new CustomObject('/assets/models/sci-fi_hanger.glb');
+//     await hanger.loadModel();
+//     return hanger;
+// }
+
+export async function createHanger() {
+    const hanger = new CustomObject('/assets/models/airplane_hanger.glb');
+    await hanger.loadModel();
+    return hanger;
+}

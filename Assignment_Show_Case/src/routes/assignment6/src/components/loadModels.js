@@ -6,15 +6,15 @@ export async function loadModels() {
     const loader = new GLTFLoader();
     
     try {
-        const [walkerData] = await Promise.all([
-            loader.loadAsync('/assets/models/lowpoly_walker_tank.glb'),
+        const [hangerData] = await Promise.all([
+            loader.loadAsync('../assets/models/sci-fi_hanger.glb'),
         ]);
 
-        //console.log(walkerData);
+        console.log(hangerData);
 
-        const walker = setupModel(walkerData);
+        const hanger = setupModel(hangerData);
     
-        return { walker }
+        return { hanger }
 
 
     } catch (error) {

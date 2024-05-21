@@ -22,6 +22,12 @@
                 case 'w':
                     world.startWalker();
                     break;
+                case "a":
+                    world.turnWalker(-1);
+                    break;
+                case "d":
+                    world.turnWalker(1);
+                    break;
             }
         });
     
