@@ -5,7 +5,7 @@ function createCamera() {
         35,
         1,
         0.1,
-        1000,
+        10000,
     );
 
     camera.position.set(0, 0, 0);
