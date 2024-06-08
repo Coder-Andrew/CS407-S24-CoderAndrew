@@ -2,26 +2,27 @@
 import { createCamera } from './components/camera.js';
 import { createPointLight } from './components/pointLight.js';
 import { createScene } from './components/scene.js';
-import { createCube, createBlackHoleCube } from './components/spheres.js';
+import { Brick } from './components/brick.js';
+import { Plane } from './components/plane.js';
+import { AxesHelper } from 'three';
+import { BrickWall } from './components/brickWall.js';
+import { Collider } from './systems/collider.js';
 
 import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
-import { loadModels } from './components/loadModels.js';
 import { createCameraControls } from './systems/cameraControls.js';
 import { Loop } from './systems/Loop.js';
-
-let xSlider, ySlider, zSlider;
 
 let camera;
 let controls;
 let renderer;
 let scene;
 let loop;
+let collider;
 
-let cube;
-let blackHoleCube;
 
 let pointLight;
+let pointLight2;
 let directionalLight;
 
 class World {
@@ -31,6 +32,7 @@ class World {
         renderer = createRenderer();
         loop = new Loop(camera, scene, renderer);
         container.append(renderer.domElement);
+        camera.position.set(0, 0, 10);
 
         controls = createCameraControls(camera, renderer);
         loop.updatables.push(controls);
@@ -38,17 +40,28 @@ class World {
         pointLight = createPointLight();
         pointLight.position.set(0,60,0);
 
-        camera.position.set(0, 0, 10);
+        pointLight2 = createPointLight();
+        pointLight2.position.set(0,60,20);
 
-        cube = createCube();
-        cube.position.set(0, 0, -4);
+        const axesHelper = new AxesHelper(5);
 
-        blackHoleCube = createBlackHoleCube();
-        // blackHoleCube.position.set(0, 0, 4);
-        loop.updatables.push(blackHoleCube);
+        const brickWall = new BrickWall(10,10);
+        
+        collider = new Collider(brickWall.bricks);
+        loop.updatables.push(collider);
+        loop.updatables.push(...brickWall.bricks);
+
+        scene.add(...brickWall.bricks);
+        brickWall.bricks[0].add(axesHelper);
+
+        const plane = new Plane(1000,1000);
+        plane.rotation.x = Math.PI * -0.5;
+        scene.add(plane);
+
+        //loop.updatables.push(...brickWall.bricks);
 
         
-        scene.add(pointLight, cube, blackHoleCube);
+        scene.add(pointLight, pointLight2);
         
         const resizer = new Resizer(container, camera, renderer);
     }
@@ -61,15 +74,6 @@ class World {
         loop.stop();
     }
 
-    updateCoordinates(vec) {
-        // blackHoleCube.position.set(vec.x, vec.y, vec.z);
-        blackHoleCube.material.uniforms.xValue.value = vec.x;
-        blackHoleCube.material.uniforms.yValue.value = vec.y;
-        blackHoleCube.material.uniforms.zValue.value = vec.z;
-
-
-        this.render();
-    }
 
     async init() {
 
