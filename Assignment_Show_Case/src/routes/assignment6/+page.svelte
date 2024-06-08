@@ -55,8 +55,14 @@
             </div>
         </div>
         <div class="text-center">
-            Hold 'w' to start the walker
+            <p>Hold 'w' to start the walker</p>
+            <p>Use 'a' and 'd' to turn the walker</p>
         </div>
+        <ul>Requirements are:
+            <li>Load a pre-made model from a GLTF file, that contains one or more geometries with materials and animation clips.</li>
+            <li>Use the three.js animation system</li>
+            <li>Exercise both of these with some form of interactive control.</li>
+        </ul>
     </div>
 </div>
 

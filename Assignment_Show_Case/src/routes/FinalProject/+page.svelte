@@ -49,11 +49,6 @@
             </div>
         </div>
     </div>
-    <ul>Requirements are:        
-        <li>Write your own shaders to do something interesting. Feel free to find some inspiration online, but you'll need to build a big part of it yourself. Remember to attribute where you got the idea from, if that's what you did.</li>
-        <li>Include interaction of some kind that sends uniforms or attributes to your custom shader.</li>
-        <li>Include more than one object in your scene, but only have your shaders applied to one of those objects. This will enable you to see how different "materials" (and thus shaders) are used for different objects.</li>
-    </ul>
 </div>
 
 <style>
