@@ -4,7 +4,7 @@
 
     let world;
     let delta = 1/600;
-    let ballMass = 100;
+    let ballMass = 25;
 
     async function main() {
         const container = document.getElementById('scene-container');
@@ -17,9 +17,12 @@
     }
 
     function handleDeltaChange(event) {
-        console.log(delta);
         delta = event.target.value;
         world.changeDelta(1/delta);
+    }
+    function handleBallMassChange(event) {
+        ballMass = event.target.value;
+        world.changeBallMass(ballMass);
     }
 
     onMount(() => {
@@ -32,13 +35,13 @@
 <div class="container">
     <div class="row d-flex align-items-center">
         <div class="col-2 text-center">
-            <div class="form-group"> 
+            <div class="form-group mb-3"> 
                 <label for="delta">Time Scale (Higher = slower)</label>
-                <input class="form-control" type="number" bind:value={delta} on:change={handleDeltaChange}/>
+                <input class="form-control-range" type="range" min="60" max="1000" bind:value={delta} on:change={handleDeltaChange}/>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="ballMass">Ball Mass: {ballMass}</label>
-                <input class="form-control-range" type="range" min="1" max="1000" bind:value={ballMass} />  <!-- bind:value={} on:change={} -->
+                <input class="form-control-range" type="range" min="1" max="25" bind:value={ballMass} on:change={handleBallMassChange} />  <!-- bind:value={} on:change={} -->
             </div>
         </div>
         <div class="col-10">    

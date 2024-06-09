@@ -2,21 +2,29 @@ import * as THREE from 'three';
 import * as CANNON from 'cannon';
 import { createCameraControls } from './systems/cameraControls';
 import { Resizer } from '../../empty/src/systems/Resizer';
-
+import { createPointLight } from './components/pointLight';
 
 let delta = 1 / 6000;
+let pointLight;
+let pointLight2;
+
 
 class World {
     constructor(container) {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.renderer = new THREE.WebGLRenderer();
+        this.renderer.shadowMap.enabled = true;
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(this.renderer.domElement);
         
         // create controls
         this.controls = createCameraControls(this.camera, this.renderer);
         this.scene.add(this.camera);
+
+        pointLight = createPointLight();
+        pointLight.position.set(0, 100, 10);
+        this.scene.add(pointLight);
 
         // Cannon.js physics world
         this.physicsWorld = new CANNON.World();
@@ -25,8 +33,7 @@ class World {
         this.createGround();
         this.createBricks();
 
-        const camPos = new THREE.Vector3(20, 5, 10);
-        this.camera.position.set(20, 5, 10);
+        this.camera.position.set(40, 5, -10);
         //this.controls.target.set(20, 5, 10);
         this.controls.update();
 
@@ -37,6 +44,11 @@ class World {
         const resizer = new Resizer(container, this.camera, this.renderer);
     }
 
+    changeBallMass(newMass) {
+        this.ballBody.mass = newMass;
+        this.ballBody.updateMassProperties();
+    }
+
     createGround() {
         const groundShape = new CANNON.Plane();
         const groundBody = new CANNON.Body({ mass: 0 });
@@ -45,20 +57,22 @@ class World {
         this.physicsWorld.addBody(groundBody);
 
         const groundGeometry = new THREE.PlaneGeometry(200, 200);
-        const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+        const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
         const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+        groundMesh.receiveShadow = true;
+        
         groundMesh.rotation.x = -Math.PI / 2;
         this.scene.add(groundMesh);
     }
 
     createBricks() {
         const brickGeometry = new THREE.BoxGeometry(2, 1, 1);
-        const brickMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const brickMaterial = new THREE.MeshStandardMaterial({ color: 0x964B00 });
     
         for (let j = 0; j < 10; j++) { // 10 rows
             for (let i = 0; i < 10; i++) { // 10 bricks per row
                 const brickMesh = new THREE.Mesh(brickGeometry, brickMaterial);
-    
+                brickMesh.castShadow = true;
                 // Stagger bricks in alternate rows for stability
                 const xOffset = (j % 2 === 0) ? 0 : 1;
                 brickMesh.position.set(i * 2.01 - xOffset, 0.5 + j * 1.01, 0);
@@ -82,14 +96,14 @@ class World {
         ballMesh.position.set(10, 5, 10);
 
         const ballShape = new CANNON.Sphere(0.5);
-        const ballBody = new CANNON.Body({ mass: 100 });
-        ballBody.addShape(ballShape);
+        this.ballBody = new CANNON.Body({ mass: 25 });
+        this.ballBody.addShape(ballShape);
 
-        ballBody.position.set(ballMesh.position.x, ballMesh.position.y, ballMesh.position.z);
-        ballBody.velocity.set(0, 0, -20);
-        this.physicsWorld.addBody(ballBody);
+        this.ballBody.position.set(ballMesh.position.x, ballMesh.position.y, ballMesh.position.z);
+        this.ballBody.velocity.set(0, 0, -20);
+        this.physicsWorld.addBody(this.ballBody);
 
-        ballMesh.userData.physicsBody = ballBody;
+        ballMesh.userData.physicsBody = this.ballBody;
 
         this.controls.target.copy(ballMesh.position);
         this.controls.update();
