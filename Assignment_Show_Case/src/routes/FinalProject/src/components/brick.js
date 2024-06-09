@@ -2,43 +2,47 @@ import { Mesh, BoxGeometry, MeshStandardMaterial } from "three";
 import { Kinematics } from "./Kinematics";
 
 export class Brick extends Mesh {
-  constructor(length = 2, width = 1, height = 1, color = 0xa52a2a) {    
-    const geometry = new BoxGeometry(length, width, height);
-    const material = new MeshStandardMaterial({ color });
-    
-    super(geometry, material);
+    constructor(length = 2, width = 1, height = 1, color = 0xa52a2a) {    
+        const geometry = new BoxGeometry(length, width, height);
+        const material = new MeshStandardMaterial({ color });
         
-    this.kinematics = new Kinematics(0.5);
-    this.geometry = geometry;
-    this.material = material;
-  }
+        super(geometry, material);
+        
+        this.kinematics = new Kinematics(0.5);
+        this.geometry = geometry;
+        this.material = material;
+        this.geometry.computeBoundingBox(); // Compute bounding box for collision detection
+    }
 
-  collidesWith(other) {
-    const distance = this.position.distanceTo(other.position);
-    return distance < 2;
-  }
+    collidesWith(other) {
+        // this.geometry.computeBoundingBox();
+        // other.geometry.computeBoundingBox();
 
-  // bounceOff(other) {
-  //   const temp = this.kinematics.velocity.clone();
-  //   this.kinematics.velocity = other.kinematics.velocity.clone();
-  //   other.kinematics.velocity = temp;
-  // }
+        // const thisBox = this.geometry.boundingBox.clone().translate(this.position);
+        // const otherBox = other.geometry.boundingBox.clone().translate(other.position);
 
-  
-  bounceOff(other) {
-    // First calculate the normal vector between the two balls
-    const normal = other.kinematics.position.clone().sub(this.kinematics.position).normalize();
-    // Now calculate the relative velocity of the two balls
-    const relativeVelocity = this.kinematics.velocity.clone().sub(other.kinematics.velocity);
-    // and dot it with the normal to get the component of the relative velocity in the normal direction
-    const velocityAlongNormal = relativeVelocity.dot(normal);
-    // Update the velocities of the two balls
-    this.kinematics.velocity.add(normal.clone().multiplyScalar(-velocityAlongNormal));
-    other.kinematics.velocity.add(normal.clone().multiplyScalar(velocityAlongNormal));
-    // let the next tick update the positions of the balls
-}
+        // return thisBox.intersectsBox(otherBox);
+        return false;
+    }
 
-  tick = (delta) => {
-    this.kinematics.tick(this, delta);
-  };
+    bounceOff(other) {
+        const normal = other.kinematics.position.clone().sub(this.kinematics.position).normalize();
+        const relativeVelocity = this.kinematics.velocity.clone().sub(other.kinematics.velocity);
+        const velocityAlongNormal = relativeVelocity.dot(normal);
+
+        if (velocityAlongNormal > 0) return;
+
+        const restitution = 0.7; // Coefficient of restitution
+        const impulseMagnitude = -(1 + restitution) * velocityAlongNormal;
+
+        const impulse = normal.multiplyScalar(impulseMagnitude);
+
+        this.kinematics.velocity.add(impulse);
+        other.kinematics.velocity.sub(impulse);
+    }
+
+    tick(delta) {
+      //console.log(this.position);
+      this.kinematics.tick(this, delta);
+    }
 }

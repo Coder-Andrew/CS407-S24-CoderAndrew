@@ -1,4 +1,3 @@
-//import { createCube } from './components/cube.js';
 import { createCamera } from './components/camera.js';
 import { createPointLight } from './components/pointLight.js';
 import { createScene } from './components/scene.js';
@@ -7,7 +6,6 @@ import { Plane } from './components/plane.js';
 import { AxesHelper } from 'three';
 import { BrickWall } from './components/brickWall.js';
 import { Collider } from './systems/collider.js';
-
 import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
 import { createCameraControls } from './systems/cameraControls.js';
@@ -19,11 +17,8 @@ let renderer;
 let scene;
 let loop;
 let collider;
-
-
 let pointLight;
 let pointLight2;
-let directionalLight;
 
 class World {
     constructor(container) {
@@ -49,20 +44,17 @@ class World {
         
         collider = new Collider(brickWall.bricks);
         loop.updatables.push(collider);
-        loop.updatables.push(...brickWall.bricks);
-
+        //loop.updatables.push(...brickWall.bricks);
         scene.add(...brickWall.bricks);
         brickWall.bricks[0].add(axesHelper);
+        brickWall.bricks[0].position.set(-3,10,0);
 
         const plane = new Plane(1000,1000);
         plane.rotation.x = Math.PI * -0.5;
         scene.add(plane);
 
-        //loop.updatables.push(...brickWall.bricks);
-
-        
         scene.add(pointLight, pointLight2);
-        
+
         const resizer = new Resizer(container, camera, renderer);
     }
 
@@ -74,18 +66,11 @@ class World {
         loop.stop();
     }
 
-
-    async init() {
-
-
-        //scene.add();
-    }
+    async init() {}
 
     render() {
         renderer.render(scene, camera);
     }
-
-
 }
 
 export { World };
