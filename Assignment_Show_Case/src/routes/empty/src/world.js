@@ -12,9 +12,11 @@ let pointLight2;
 class World {
     constructor(container) {
         this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0xaaaaaa);
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(this.renderer.domElement);
         

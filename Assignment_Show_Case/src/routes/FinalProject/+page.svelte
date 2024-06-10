@@ -10,14 +10,20 @@
 
         world = new World(container);
         await world.init();
-        world.render();
         
+        world.render();
         world.start();
 
     }
 
     onMount(() => {
         main();
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                world.spawnSphere();
+            }
+        });
     });
 </script>
 
@@ -25,6 +31,7 @@
 <div class="container">
     <div class="row d-flex align-items-center">
         <div class="col-1 text-center">
+            <p>Press Space to spawn balls</p>
         </div>
         <div class="col-11">    
             <div id="scene-container">

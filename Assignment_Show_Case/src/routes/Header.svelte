@@ -45,7 +45,7 @@
 			</li>
 
 			<li aria-current={$page.url.pathname.startsWith('/empty') ? 'page' : undefined}>
-				<a href="/empty">Sverdle</a>
+				<a href="/empty">Final pt 1</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
