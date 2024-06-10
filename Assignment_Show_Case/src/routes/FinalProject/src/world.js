@@ -22,6 +22,8 @@ let pointLight;
 let pointLight2;
 let physicsWorld;
 let animationFrame;
+let numberOfRemainingBalls = 5;
+let balls = [];
 
 let sound;
 let listener;
@@ -66,18 +68,15 @@ class World {
         pachinko.position.set(0, 5, 0);
         scene.add(pachinko);
         
+        // Add pachinko machine to physics world
         pachinko.physicalObjects.forEach(obj =>  {
-            //console.log(obj);
             scene.add(obj);
             physicsWorld.addBody(obj.body);
-            });
-            //physicsWorld.addBody(...pachinko.physicalObjects)
-            
-        let physSphere = createPhysicsSphere();
-        scene.add(physSphere.mesh);
-        physicsWorld.addBody(physSphere.body);
+        });
         
 
+        
+        
             
         const resizer = new Resizer(container, camera, renderer);
         camera.lookAt(-100,0,0);
@@ -98,12 +97,26 @@ class World {
     render() {
         renderer.render(scene, camera);
     }
-
+    
     spawnSphere() {
+        //if (numberOfRemainingBalls <= 0) return;
+        
         const sphere = createPhysicsSphere();
         scene.add(sphere.mesh);
         physicsWorld.addBody(sphere.body);
-
+        balls.push(sphere);
+        
+        //numberOfRemainingBalls--;
+    }
+        
+    getNumberOfRemainingBalls() { return numberOfRemainingBalls; }
+        
+    clearBalls() {
+        balls.forEach(ball => {
+            scene.remove(ball.mesh);
+            physicsWorld.remove(ball.body);
+        });
+        balls = [];
     }
 
     animate() {

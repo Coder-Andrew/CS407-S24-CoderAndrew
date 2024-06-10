@@ -3,7 +3,7 @@
     import { World } from './src/world.js'
 
     let world;
-    let xVal = 0, yVal = 0, zVal = 0;
+    let numberOfBalls;
 
     async function main() {
         const container = document.getElementById('scene-container');
@@ -14,26 +14,35 @@
         world.render();
         world.start();
 
+        numberOfBalls = world.getNumberOfRemainingBalls();
+
     }
 
     onMount(() => {
         main();
 
         document.addEventListener('keydown', (e) => {
+            updateNumberOfBalls();
             if (e.code === 'Space') {
                 world.spawnSphere();
             }
         });
     });
+
+    function updateNumberOfBalls() {
+        numberOfBalls = world.getNumberOfRemainingBalls();
+    }
 </script>
 
 
 <div class="container">
     <div class="row d-flex align-items-center">
-        <div class="col-1 text-center">
+        <div class="col-2 text-center">
+            <!-- <p>Balls remaining: {numberOfBalls}</p> -->
             <p>Press Space to spawn balls</p>
+            <button class="btn btn-primary" on:click={world.clearBalls}>Clear Balls</button>
         </div>
-        <div class="col-11">    
+        <div class="col-10">    
             <div id="scene-container">
             </div>
         </div>

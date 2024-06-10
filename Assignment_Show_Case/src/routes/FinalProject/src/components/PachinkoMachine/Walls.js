@@ -21,13 +21,13 @@ export class SideWall extends Mesh {
 }
 
 export class SlatWall extends Mesh {
-    constructor() {
-        const geometry = new BoxGeometry(0.15, 3, 2.5);
+    constructor(length = 0.15, width = 5, depth = 2.5) {
+        const geometry = new BoxGeometry(length, width, depth);
         const material = new MeshStandardMaterial({ color: 0x000000 });
 
         super(geometry, material);
 
-        const halfExtents = new CANNON.Vec3(0.15 / 2, 3 / 2, 2.5 / 2);
+        const halfExtents = new CANNON.Vec3(length / 2, width / 2, depth / 2);
         this.shape = new CANNON.Box(halfExtents);
         this.body = new CANNON.Body({
             mass: 0,

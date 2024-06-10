@@ -29,10 +29,10 @@ export class Pachinko extends Object3D{
         this.sidewall2.body.position.set(this.sidewall2.position.x, this.sidewall2.position.y, this.sidewall2.position.z);
         this.physicalObjects.push(this.sidewall, this.sidewall2);
 
-        for(let i = 0; i < 7; i++) {
+        for(let i = 0; i < 8; i++) {
             const slatWall = new SlatWall();
             this.add(slatWall);
-            slatWall.position.set(-5.25 + i * 1.75, 5, -1.01);
+            slatWall.position.set(-5.55 + i * 1.58, 3, -1.01);
             slatWall.body.position.set(slatWall.position.x, slatWall.position.y, slatWall.position.z);
             this.physicalObjects.push(slatWall);
         }
@@ -47,6 +47,8 @@ export class Pachinko extends Object3D{
                 this.physicalObjects.push(peg);
             }
         }
+
+        
 
     }
 

@@ -14,6 +14,12 @@
 
         //world.start();
 
+        document.addEventListener('keydown', (event) => {
+            if (event.key === ' ') {
+                world.shootBall();
+            }
+        });
+
     }
 
     function handleDeltaChange(event) {
@@ -24,6 +30,7 @@
         ballMass = event.target.value;
         world.changeBallMass(ballMass);
     }
+
 
     onMount(() => {
         main();
@@ -43,6 +50,9 @@
                 <label for="ballMass">Ball Mass: {ballMass}</label>
                 <input class="form-control-range" type="range" min="1" max="25" bind:value={ballMass} on:change={handleBallMassChange} />  <!-- bind:value={} on:change={} -->
             </div>
+            <p>
+                Press space to shoot the ball
+            </p>
         </div>
         <div class="col-10">    
             <div id="scene-container">
