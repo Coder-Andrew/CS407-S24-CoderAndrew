@@ -5,7 +5,7 @@
 
 <div class="text-column">
 	<h1>About this app</h1>
-
+	<a class="text-center h2 text-primary" href="https://github.com/Coder-Andrew/CS407-S24-CoderAndrew" target="_blank">My github</a>
 	<p>
 		This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make your own by typing the
 		following into your command line and following the prompts:
