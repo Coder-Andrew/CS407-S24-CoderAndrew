@@ -2,7 +2,7 @@ import { createCamera } from './components/camera.js';
 import { createPointLight } from './components/pointLight.js';
 import { createScene } from './components/scene.js';
 import { Plane } from './components/plane.js';
-import { AxesHelper } from 'three';
+import { AxesHelper, AudioListener, AudioLoader, Audio } from 'three';
 import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
 import { createCameraControls } from './systems/cameraControls.js';
@@ -22,6 +22,10 @@ let pointLight;
 let pointLight2;
 let physicsWorld;
 let animationFrame;
+
+let sound;
+let listener;
+let audioLoader;
 
 class World {
     constructor(container) {
@@ -46,18 +50,19 @@ class World {
 
         const axesHelper = new AxesHelper(5);
 
-        
-        const sphere = createSphere();
-        sphere.position.set(0, 1, -1);
-        scene.add(sphere);
-        
         const plane = new Plane(1000,1000);
         scene.add(plane);
         physicsWorld.addBody(plane.body);
         
         scene.add(pointLight, pointLight2);
         
-        const pachinko = new Pachinko();
+        // Add audio
+        listener = new AudioListener();
+        camera.add(listener);
+        audioLoader = new AudioLoader();
+
+        // Add pachinko machine
+        const pachinko = new Pachinko(listener, audioLoader);
         pachinko.position.set(0, 5, 0);
         scene.add(pachinko);
         
@@ -72,6 +77,7 @@ class World {
         scene.add(physSphere.mesh);
         physicsWorld.addBody(physSphere.body);
         
+
             
         const resizer = new Resizer(container, camera, renderer);
         camera.lookAt(-100,0,0);

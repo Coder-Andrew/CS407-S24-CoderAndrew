@@ -4,7 +4,7 @@ import { SideWall, SlatWall } from "./PachinkoMachine/Walls";
 import { Peg } from "./PachinkoMachine/Peg";
 
 export class Pachinko extends Object3D{
-    constructor() {
+    constructor(audioListener, audioLoader) {
         super();
         this.physicalObjects = [];
 
@@ -40,7 +40,7 @@ export class Pachinko extends Object3D{
         // Make the pegs, 7 in a row, 1.75 units apart, multiple rows, starting at 5 units up, staggered
         for(let i = 0; i < 8; i++) {
             for(let j = 0; j < 8; j++) {
-                const peg = new Peg();
+                const peg = new Peg(audioListener, audioLoader);
                 this.add(peg);
                 peg.position.set(-5.75 + i * 1.75 + (j % 2) * 0.875, 10 + j * 1.75, -1.01);
                 peg.body.position.set(peg.position.x, peg.position.y, peg.position.z);
