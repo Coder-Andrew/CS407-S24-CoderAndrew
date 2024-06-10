@@ -31,8 +31,10 @@ export function createPhysicsSphere() {
     const shape = new CANNON.Sphere(radius);
     const body = new CANNON.Body({ mass: 1 });
 
+
     body.addShape(shape);
     body.position.set(sphere.position.x, sphere.position.y, sphere.position.z);
+    body.velocity.set(0, Math.random() * -50,0);  
 
     sphere.userData.physicsBody = body;
 
